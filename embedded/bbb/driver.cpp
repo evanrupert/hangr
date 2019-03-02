@@ -3,6 +3,8 @@
 #define ASIO_STANDALONE
 #include <asio.hpp>
 
+#include "gpio.h"
+
 using namespace std;
 using namespace asio;
 
@@ -73,6 +75,21 @@ private:
   string host;
   string endpoint;
   string proto;
+};
+
+struct rest_to_arduino_engine: engine {
+  rest_to_arduino_engine(): engine(HOST, ENDPOINT){
+    out.set(0);
+  }
+
+  virtual void process_response(string s) {
+    out.set(stoi(s.s.c_str()));
+  }
+
+  const static string HOST = "lol idk";
+  const static string ENDPOINT = "lol idk";
+
+  gpio_number out;
 };
 
 int main(){

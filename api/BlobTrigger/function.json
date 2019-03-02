@@ -1,0 +1,13 @@
+{
+  "disabled": false,
+  "bindings": [
+    {
+      "authLevel": null,
+      "type": "blobTrigger",
+      "direction": "in",
+      "name": "myBlob",
+      "methods": null
+    }
+  ],
+  "scriptFile": "../dist/BlobTrigger/index.js"
+}

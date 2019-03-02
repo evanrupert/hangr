@@ -1,0 +1,17 @@
+{
+  "name": "upload_image",
+  "version": "1.0.0",
+  "description": "",
+  "main": "upload_blob_image.js",
+  "dependencies": {
+    "azure-storage": "^2.10.2",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -19,5 +19,5 @@
       "methods": null
     }
   ],
-  "scriptFile": "../dist/DatabaseTesting/database_testing.js"
+  "scriptFile": "../dist/MockIndex/mock_index.js"
 }

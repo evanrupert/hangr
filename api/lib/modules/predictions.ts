@@ -49,5 +49,5 @@ export function isTop(prediction: Prediction): boolean {
 }
 
 function hasKeyword(prediction: Prediction, keywords: string[]): boolean {
-  return keywords.some((keyword: string) => prediction.name.includes(keyword))
+  return keywords.some((keyword: string) => prediction.name.toLowerCase().includes(keyword))
 }

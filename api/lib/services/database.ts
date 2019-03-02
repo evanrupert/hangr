@@ -17,7 +17,10 @@ export class Database {
       database: 'postgres',
       entities: [TestTable, Item]
     })
+  }
 
+  async close() {
+    await this.conn.close()
   }
 
   async itemsRepo(): Promise<Repository<Item>> {

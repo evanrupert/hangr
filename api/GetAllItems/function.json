@@ -7,8 +7,7 @@
       "direction": "in",
       "name": "req",
       "methods": [
-        "get",
-        "post"
+        "get"
       ]
     },
     {
@@ -19,5 +18,5 @@
       "methods": null
     }
   ],
-  "scriptFile": "../dist/HelloWorld/hello_world.js"
+  "scriptFile": "../dist/GetAllItems/get_all_items.js"
 }

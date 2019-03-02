@@ -5,7 +5,7 @@
 const storage = require('azure-storage')
 const path = require('path')
 
-// local conf should have local_conf.blob_connection
+// local conf should have local_conf.blobConnectionString
 // set to the blob connection string
 const localConf = require('./config.json')
 

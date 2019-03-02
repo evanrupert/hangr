@@ -1,0 +1,6 @@
+[submodule "embedded/bbb/deps/lib-bbbgpio"]
+	path = embedded/bbb/deps/lib-bbbgpio
+	url = https://github.com/rosmod/lib-bbbgpio.git
+[submodule "embedded/bbb/deps/asio"]
+	path = embedded/bbb/deps/asio
+	url = https://github.com/chriskohlhoff/asio

@@ -1,24 +1,25 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions'
-import { Connection, createConnection } from 'typeorm'
-import { TestTable } from '../lib/models/test_table'
-import { Database } from '../lib/database'
+import { Database } from '../lib/services/database'
+import { Item } from '../lib/entities/item'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   context.log('HTTP trigger function processed a request.')
+  const url = req.body.url
 
   const db = new Database()
-
   await db.initialize()
 
-  const test = await db.conn.getRepository(TestTable).findOne(1)
+  const itemsRepo = await db.itemsRepo()
+
+  const newItem = new Item(true, url, 'Rainy', 5)
+
+  await itemsRepo.save(newItem)
 
   context.res = {
     status: 200,
     body: {
-      test: {
-        id: test.id,
-        name: test.name
-      }
+      ok: true,
+      item: newItem
     }
   }
 }

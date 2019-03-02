@@ -19,5 +19,5 @@
       "methods": null
     }
   ],
-  "scriptFile": "../dist/HelloWorld/index.js"
+  "scriptFile": "../dist/HelloWorld/hello_world.js"
 }

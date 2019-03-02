@@ -7,7 +7,6 @@
       "direction": "in",
       "name": "req",
       "methods": [
-        "get",
         "post"
       ]
     },
@@ -19,5 +18,5 @@
       "methods": null
     }
   ],
-  "scriptFile": "../dist/DatabaseTesting/database_testing.js"
+  "scriptFile": "../dist/CreateItem/create_item.js"
 }

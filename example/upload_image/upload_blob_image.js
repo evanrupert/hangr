@@ -1,4 +1,5 @@
 // See https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-nodejs
+// or https://docs.microsoft.com/en-us/javascript/api/azure-storage/azurestorage.services.blob.blobservice.blobservice?view=azure-node-latest
 // for more info.
 
 const storage = require('azure-storage')

@@ -19,6 +19,6 @@ export interface ApiConfig {
  * The default configuration for the app.
  */
 export const DEFAULT_API_CONFIG: ApiConfig = {
-  url: env.API || "http://090efeff.ngrok.io", // NOTE: Fix with general URL
+  url: env.API || "http://6be0a9f4.ngrok.io", // NOTE: Fix with general URL
   timeout: 10000,
 }

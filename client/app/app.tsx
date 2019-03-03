@@ -82,6 +82,8 @@ const APP_NAME = "client"
 // ⚠️ Leave this as `false` when checking into git.
 const SHOW_STORYBOOK = false
 
+// Control logging
+console.disableYellowBox = true
+
 const RootComponent = SHOW_STORYBOOK && __DEV__ ? StorybookUIRoot : App
 AppRegistry.registerComponent(APP_NAME, () => RootComponent)
-

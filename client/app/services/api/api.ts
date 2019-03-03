@@ -109,7 +109,7 @@ export class Api {
   async getItems(): Promise<Types.GetItems> {
     let response: ApiResponse<any>
     try {
-      response = await this.apisauce.get("/api/getallitems") // NOTE: Put in ping local url
+      response = await this.apisauce.get("/api/getallitems")
     } catch (err) {
       console.error(err)
     }
@@ -131,6 +131,35 @@ export class Api {
     try {
       const items: Types.Item[] = response.data.map(convertItems)
       return { kind: "ok", items }
+    } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  async getHistory(): Promise<Types.GetHistory> {
+    let response: ApiResponse<any>
+    try {
+      response = await this.apisauce.get("/api/getoutfithistory") // NOTE: Fix with History endpoint
+    } catch (err) {
+      console.error(err)
+    }
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      console.error(response)
+      if (problem) return problem
+    }
+
+    const convertItems = ({ top, bottom, weather, id }) => ({
+      id,
+      top,
+      bottom,
+      weather,
+    })
+
+    try {
+      const historyItems: Types.Item[] = response.data.map(convertItems)
+      return { kind: "ok", historyItems }
     } catch {
       return { kind: "bad-data" }
     }

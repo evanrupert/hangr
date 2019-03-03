@@ -1,5 +1,5 @@
 import * as React from "react"
-import { View, ViewStyle, TextStyle } from "react-native"
+import { View, ViewStyle, TextStyle, TouchableHighlight } from "react-native"
 import { HeaderProps } from "./header.props"
 import { Button } from "../button"
 import { Icon } from "../icon"
@@ -29,6 +29,7 @@ export class Header extends React.Component<HeaderProps, {}> {
     const {
       onLeftPress,
       onRightPress,
+      onHeaderPress,
       rightIcon,
       leftIcon,
       headerText,
@@ -47,7 +48,9 @@ export class Header extends React.Component<HeaderProps, {}> {
           <View style={LEFT} />
         )}
         <View style={TITLE_MIDDLE}>
-          <Text style={{...TITLE, ...titleStyle}} text={header} />
+          <TouchableHighlight onPress={onHeaderPress}>
+            <Text style={{ ...TITLE, ...titleStyle }} text={header} />
+          </TouchableHighlight>
         </View>
         {rightIcon ? (
           <Button preset="link" onPress={onRightPress}>

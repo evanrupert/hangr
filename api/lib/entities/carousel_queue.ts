@@ -1,4 +1,4 @@
-import { Column, Entity } from 'typeorm'
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity({name: 'carousel_queue'})
 export class CarouselQueue {
@@ -6,6 +6,9 @@ export class CarouselQueue {
     this.top = top
     this.bottom = bottom
   }
+
+  @PrimaryGeneratedColumn()
+  id: number
 
   @Column()
   top: number

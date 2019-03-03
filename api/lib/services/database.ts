@@ -16,7 +16,7 @@ export class Database {
       username: 'hangradmin@hangrdb',
       password: dbPassword,
       database: 'postgres',
-      entities: [TestTable, Item]
+      entities: [TestTable, Item, CarouselQueue]
     })
   }
 

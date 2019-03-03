@@ -18,5 +18,5 @@
       "methods": null
     }
   ],
-  "scriptFile": "../dist/MockIndex/mock_index.js"
+  "scriptFile": "../dist/CheckCarouselQueue/check_carousel_queue.js"
 }

@@ -4,18 +4,20 @@ import { WeatherType } from '../models/weather_type'
 const coldClothes = [
   'coat',
   'jacket',
-  'sweater'
+  'sweater',
+  'snow',
+  'hoodie'
 ]
 
-// const hotClothes = [
-//   'shirt',
-//   'skirt',
-//   'dress',
-//   'short'
-// ]
+const hotClothes = [
+  'shirt',
+  'short',
+  'tank top'
+]
 
 const rainyClothes = [
-  'raincoat'
+  'rain',
+  'windbreaker'
 ]
 
 const tops = [
@@ -25,7 +27,8 @@ const tops = [
   'sweater',
   'top',
   'torso',
-  'raincoat'
+  'raincoat',
+  'hoodie'
 ]
 
 // const bottoms = [
@@ -40,8 +43,10 @@ export function determineWeatherType(prediction: Prediction): WeatherType {
     return WeatherType.RAINY
   else if (hasKeyword(prediction, coldClothes))
     return WeatherType.COLD
-  else
+  else if (hasKeyword(prediction, hotClothes))
     return WeatherType.HOT
+  else
+    return WeatherType.EITHER
 }
 
 export function isTop(prediction: Prediction): boolean {

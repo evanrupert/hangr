@@ -1,5 +1,6 @@
 export enum WeatherType {
   HOT = 'Hot',
   COLD = 'Cold',
-  RAINY = 'Rainy'
+  RAINY = 'Rainy',
+  EITHER = 'Either'
 }

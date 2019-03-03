@@ -19,5 +19,5 @@
       "methods": null
     }
   ],
-  "scriptFile": "../dist/TestWeather/index.js"
+  "scriptFile": "../dist/ConfirmOutfit/confirm_outfit.js"
 }

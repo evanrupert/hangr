@@ -13,9 +13,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
   context.res = {
     status: 200,
-    body: {
-      data: items
-    }
+    body: items
   }
 
   await db.close()

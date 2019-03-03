@@ -33,19 +33,13 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
     context.res = {
       status: 200,
-      body: {
-        ok: true,
-        item: newItem
-      }
+      body: newItem
     }
   } catch (e) {
     console.log(e)
     context.res = {
       status: 200,
-      body: {
-        ok: false,
-        error: e
-      }
+      body: e
     }
   } finally {
     if (db) await db.close()

@@ -3,6 +3,7 @@ import { Database } from '../lib/services/database'
 import { Item } from '../lib/entities/item'
 import { Clarifai } from '../lib/services/clarifai'
 import { determineWeatherType, isTop } from '../lib/modules/predictions'
+import { findNextIndex } from '../lib/modules/queries'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   context.log('HTTP trigger function processed a request.')
@@ -21,11 +22,13 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
     console.log(prediction)
 
+    const idx = await findNextIndex(db)
+
     const newItem = await itemsRepo.save(new Item(
       isTop(prediction),
       url,
       determineWeatherType(prediction),
-      0
+      idx
     ))
 
     context.res = {

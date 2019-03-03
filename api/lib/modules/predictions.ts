@@ -31,12 +31,12 @@ const tops = [
   'hoodie'
 ]
 
-// const bottoms = [
-//   'jean',
-//   'short',
-//   'pants',
-//   'skirt'
-// ]
+const bottoms = [
+  'jean',
+  'short',
+  'pants',
+  'skirt'
+]
 
 export function determineWeatherType(prediction: Prediction): WeatherType {
   if (hasKeyword(prediction, rainyClothes))
@@ -49,8 +49,14 @@ export function determineWeatherType(prediction: Prediction): WeatherType {
     return WeatherType.EITHER
 }
 
+// throw an error if the image is not valid
 export function isTop(prediction: Prediction): boolean {
-  return hasKeyword(prediction, tops)
+    if(hasKeyword(prediction, tops))
+        return true;
+    else if(hasKeyword(prediction, bottoms))
+        return false;
+
+    throw new Error('This image is not a valid shirt or pants.')
 }
 
 function hasKeyword(prediction: Prediction, keywords: string[]): boolean {

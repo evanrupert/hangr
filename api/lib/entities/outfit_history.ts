@@ -19,4 +19,7 @@ export class OutfitHistory {
 
     @Column()
     weather: string
+
+    @Column()
+    timestamp: Date
 }

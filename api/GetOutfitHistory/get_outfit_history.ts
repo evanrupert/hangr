@@ -7,12 +7,27 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
   const outfitHistoryRepo = await db.outfitHistoryRepo()
 
-  const history = await outfitHistoryRepo.find()
+  const itemRepo = await db.itemsRepo()
+
+  const histories = await outfitHistoryRepo.find()
+
+  const historyWithItems: any[] = []
+  for (let history of histories) {
+    historyWithItems.push({
+      top: await itemRepo.findOne(history.top),
+      bottom: await itemRepo.findOne(history.bottom),
+      weather: history.weather,
+      id: history.id,
+      timestamp: history.timestamp
+    })
+  }
 
   context.res = {
     status: 200,
-    body: history
+    body: historyWithItems
   }
+
+  await db.close()
 }
 
 export default httpTrigger

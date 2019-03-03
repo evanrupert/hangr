@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from 'axios'
 import { WeatherResponse } from '../models/weather_response';
 
 export class Weather {
-    private currentWeatherUrl : string = '/data/2.5/weather'
+    private currentWeatherUrl : string = 'https://api.openweathermap.org/data/2.5/weather'
     private apiKey: string
     private coldThresh: number
     private hotThresh: number
@@ -14,29 +14,18 @@ export class Weather {
         this.hotThresh = hotThresh
     }
 
-    async getWeather(city: string): Promise<WeatherType[]> {
-        const config: AxiosRequestConfig = {
-            headers: {
-                'Authorization': `Key ${this.apiKey}`,
-                'Content-Type': 'application/json'
+    async getWeather(zip: string): Promise<WeatherType[]> {
+        let resp = await axios.get<WeatherResponse>(this.currentWeatherUrl, {
+            params: {
+                "zip": zip,
+                "units": "imperial",
+                "appid": this.apiKey
             }
-        }
+        })
 
-        let resp = await axios.post<WeatherResponse>(this.currentWeatherUrl,
-                                                     {
-            inputs: [
-                {
-                    data: {
-                        "city": city,
-                        "units": "imperial"
-                    }
-                }
-            ]
-        }, config)
+        const specialWeather = resp.data.weather
 
-        const specialWeather = resp.data.outputs[0].data.weather
-
-        let weather: WeatherType[]
+        let weather: WeatherType[] = []
 
         for (let special in specialWeather) {
             if(special[0] == '5') {
@@ -44,11 +33,11 @@ export class Weather {
             }
         }
 
-        const mainWeather = resp.data.outputs[0].data.main
+        const mainWeather = resp.data.main
 
         if (mainWeather.temp < this.coldThresh) {
             weather.push(WeatherType.COLD)
-        } else if (mainWeather.temp < this.hotThresh) {
+        } else if (mainWeather.temp > this.hotThresh) {
             weather.push(WeatherType.HOT)
         }
 

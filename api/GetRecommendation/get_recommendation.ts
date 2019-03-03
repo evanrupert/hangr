@@ -19,7 +19,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   console.log(`Current Weather: ${currentWeather}`)
 
   const db = new Database()
-  await db.initialize()
+  await db.initialize('get-recommendation')
 
   const itemRepo = await db.itemsRepo()
 

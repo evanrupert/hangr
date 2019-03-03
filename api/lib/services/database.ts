@@ -7,10 +7,11 @@ import { OutfitHistory } from '../entities/outfit_history';
 export class Database {
   private conn: Connection
 
-  async initialize() {
+  async initialize(connName: string = 'default') {
     const dbPassword = process.env.HANGR_DB_PASSWORD
 
     this.conn = await createConnection({
+      name: connName,
       type: 'postgres',
       host: 'hangrdb.postgres.database.azure.com',
       port: 5432,

@@ -77,8 +77,8 @@ private:
   string proto;
 };
 
-struct rest_to_arduino_engine: engine {
-  rest_to_arduino_engine(): engine(HOST, ENDPOINT){
+struct carousel_engine: engine {
+  carousel_engine(): engine(HOST, ENDPOINT){
     out.set(0);
   }
 

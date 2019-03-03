@@ -23,7 +23,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       body: {
         messageInQueue: true,
         message: {
-          top: queue[0].top,
+          top: 5,
           bottom: queue[0].bottom
         }
       }

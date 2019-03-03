@@ -4,10 +4,11 @@ import { Weather } from '../lib/services/weather'
 import { WeatherType } from '../lib/models/weather_type'
 import { Item } from '../lib/entities/item'
 import { ItemRecommendation } from '../lib/models/item_recommendation'
+import { mostRecentOutfitHistory } from '../lib/modules/queries'
 
 const WEATHER_BONUS: number = 3.0
 const STALL_MULTIPLIER: number = 0.05
-const HISTORY_MULTIPLIER: number = 0.5
+const RANDOM_MULTIPLIER: number = 1.2
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   context.log('HTTP trigger function processed a request.')
@@ -21,7 +22,6 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   await db.initialize()
 
   const itemRepo = await db.itemsRepo()
-  const historyRepo = await db.outfitHistoryRepo()
 
   let items: Item[] = await itemRepo.find()
   let recommendedTop: ItemRecommendation = null
@@ -39,15 +39,10 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     if (currentWeather.includes(item.weather as WeatherType) || item.weather === WeatherType.EITHER)
       weatherWeight += WEATHER_BONUS
 
-    // find the last associated history item
-    const result = await historyRepo.createQueryBuilder()
-      .where('top = :id OR bottom = :id', {id: item.id})
-      .orderBy('timestamp')
-      .take(1)
-      .getOne()
+    const lastOutfitHistory = await mostRecentOutfitHistory(db, item.id)
 
-    if (result) {
-      const historyTimestamp = result.timestamp.getTime()
+    if (lastOutfitHistory) {
+      const historyTimestamp = lastOutfitHistory.timestamp.getTime()
       const currentDate = (new Date()).getTime()
 
       const diff =  currentDate - historyTimestamp
@@ -56,7 +51,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       stallWeight += 2
     }
 
-    let randomWeight = Math.random() * 1.2
+    let randomWeight = Math.random() * RANDOM_MULTIPLIER
 
     console.log(`Weather: ${weatherWeight}`)
     console.log(`Stall: ${stallWeight}`)
@@ -76,7 +71,6 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
 
   context.res = {
-    // status: 200, /* Defaults to 200 */
     body: {
       top: recommendedTop,
       bottom: recommendedBottom,

@@ -2,6 +2,7 @@ import { Connection, createConnection, Repository } from 'typeorm'
 import { TestTable } from '../entities/test_table'
 import { Item } from '../entities/item'
 import { CarouselQueue } from '../entities/carousel_queue'
+import { OutfitHistory } from '../entities/outfit_history';
 
 export class Database {
   private conn: Connection
@@ -16,7 +17,7 @@ export class Database {
       username: 'hangradmin@hangrdb',
       password: dbPassword,
       database: 'postgres',
-      entities: [TestTable, Item, CarouselQueue]
+      entities: [TestTable, Item, CarouselQueue, OutfitHistory]
     })
   }
 
@@ -30,5 +31,9 @@ export class Database {
 
   async carouselQueueRepo(): Promise<Repository<CarouselQueue>> {
     return this.conn.getRepository(CarouselQueue)
+  }
+
+  async outfitHistoryRepo(): Promise<Repository<OutfitHistory>> {
+    return this.conn.getRepository(OutfitHistory)
   }
 }

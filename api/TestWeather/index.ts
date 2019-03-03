@@ -2,10 +2,10 @@ import { AzureFunction, Context, HttpRequest } from "@azure/functions"
 import { Weather } from '../lib/services/weather'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
-    context.log('HTTP trigger function processed a request.');
+    context.log('HTTP trigger function processed a request.')
     const name = (req.query.name || (req.body && req.body.name));
 
-    const weatherService = new Weather(60, 90)
+    const weatherService = new Weather(75)
 
     const resp = await weatherService.getWeather('32816,us')
     context.log(resp)

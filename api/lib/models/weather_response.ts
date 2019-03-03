@@ -1,15 +1,11 @@
 export interface WeatherResponse {
-    outputs: {
-        data: {
-            weather: [
-                {
-                    id: string
-                }
-            ],
-
-            main: {
-                temp: number
-            }
+    weather: [
+        {
+            id: string
         }
-    }[]
+    ],
+
+    main: {
+        temp: number
+    }
 }

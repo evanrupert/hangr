@@ -6,12 +6,10 @@ export class Weather {
     private currentWeatherUrl : string = 'https://api.openweathermap.org/data/2.5/weather'
     private apiKey: string
     private coldThresh: number
-    private hotThresh: number
 
-    constructor(coldThresh: number, hotThresh: number) {
+    constructor(coldThresh: number) {
         this.apiKey = process.env.OPENWEATHER_API_KEY
         this.coldThresh = coldThresh
-        this.hotThresh = hotThresh
     }
 
     async getWeather(zip: string): Promise<WeatherType[]> {
@@ -28,7 +26,7 @@ export class Weather {
         let weather: WeatherType[] = []
 
         for (let special in specialWeather) {
-            if(special[0] == '5') {
+            if(special[0] === '5') {
                 weather.push(WeatherType.RAINY);
             }
         }
@@ -37,7 +35,7 @@ export class Weather {
 
         if (mainWeather.temp < this.coldThresh) {
             weather.push(WeatherType.COLD)
-        } else if (mainWeather.temp > this.hotThresh) {
+        } else {
             weather.push(WeatherType.HOT)
         }
 

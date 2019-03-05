@@ -21,7 +21,7 @@ import { logoIgnite, heart } from "./"
 import { BulletItem } from "../../components/bullet-item"
 import { Api, Item } from "../../services/api"
 import { save } from "../../utils/storage"
-import { add, confirm } from "./"
+import { add, confirm, cancel } from "./"
 
 const FULL: ViewStyle = {
   flex: 1,
@@ -43,13 +43,13 @@ const DEMO_TEXT: TextStyle = {
   letterSpacing: 2,
 }
 const HEADER: TextStyle = {
-  paddingTop: spacing[3],
-  paddingBottom: spacing[5] - 1,
+  paddingTop: spacing[4],
+  paddingBottom: spacing[4],
   paddingHorizontal: spacing[4],
 }
 const HEADER_TITLE: TextStyle = {
   ...BOLD,
-  fontSize: 14,
+  fontSize: 16,
   lineHeight: 15,
   textAlign: "center",
   letterSpacing: 1.5,
@@ -65,6 +65,7 @@ const HOTBAR: ViewStyle = {
   backgroundColor: color.palette.offWhite,
   height: 80,
   flex: 1,
+  minWidth: 360,
 }
 const HEADER_ITEM = {
   borderRadius: 50,
@@ -93,6 +94,8 @@ export class SecondExampleScreen extends React.Component<
 
     this.state = {
       items: [],
+      initialItems: [],
+      historyItems: [],
       confirmed: true,
     }
   }
@@ -135,13 +138,35 @@ export class SecondExampleScreen extends React.Component<
   }
 
   async componentDidMount() {
+    await this.loadItems()
+    await this.loadHistory()
+  }
+
+  async loadItems() {
     try {
       const response = await this.api.getItems()
       let items
 
       if (response.kind == "ok") {
         items = response.items
-        this.setState({ items })
+        this.setState({ items, initialItems: items })
+      } else {
+        console.warn(response)
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  async loadHistory() {
+    try {
+      const response = await this.api.getHistory()
+      let historyItems
+
+      if (response.kind == "ok") {
+        historyItems = response.historyItems
+
+        this.setState({ historyItems })
       } else {
         console.warn(response)
       }
@@ -178,14 +203,26 @@ export class SecondExampleScreen extends React.Component<
       )
       this.setState({
         confirmed: true,
+        items: this.state.initialItems,
       })
     } catch (err) {
       console.error(err)
     }
   }
 
+  cancel() {
+    this.setState({ confirmed: true, items: this.state.initialItems })
+  }
+
+  resetItems() {
+    this.setState({ confirmed: true, items: this.state.initialItems })
+  }
+
+  selectHistory(item) {
+    this.setState({ items: [item["top"], item["bottom"]] })
+  }
+
   render() {
-    console.warn(this.state.items)
     return (
       <View style={FULL}>
         <Wallpaper />
@@ -196,6 +233,7 @@ export class SecondExampleScreen extends React.Component<
               leftIcon="camera"
               rightIcon="search"
               onLeftPress={this.openCamera}
+              onHeaderPress={this.resetItems.bind(this)}
               style={HEADER}
               titleStyle={HEADER_TITLE}
             />
@@ -213,16 +251,18 @@ export class SecondExampleScreen extends React.Component<
                 >
                   <Image source={this.state.confirmed ? add : confirm} style={HEADER_ITEM} />
                 </TouchableHighlight>
-                <Image source={{ uri: "https://picsum.photos/200/300" }} style={HEADER_ITEM} />
-                <Image source={{ uri: "https://picsum.photos/200/300" }} style={HEADER_ITEM} />
-                <Image source={{ uri: "https://picsum.photos/200/300" }} style={HEADER_ITEM} />
-                <Image source={{ uri: "https://picsum.photos/200/300" }} style={HEADER_ITEM} />
-                <Image source={{ uri: "https://picsum.photos/200/300" }} style={HEADER_ITEM} />
-                <Image source={{ uri: "https://picsum.photos/200/300" }} style={HEADER_ITEM} />
-                <Image source={{ uri: "https://picsum.photos/200/300" }} style={HEADER_ITEM} />
-                <Image source={{ uri: "https://picsum.photos/200/300" }} style={HEADER_ITEM} />
-                <Image source={{ uri: "https://picsum.photos/200/300" }} style={HEADER_ITEM} />
-                <Image source={{ uri: "https://picsum.photos/200/300" }} style={HEADER_ITEM} />
+                {!this.state.confirmed && (
+                  <TouchableHighlight onPress={this.cancel.bind(this)}>
+                    <Image source={cancel} style={HEADER_ITEM} />
+                  </TouchableHighlight>
+                )}
+                {this.state.historyItems.map(hi => {
+                  return (
+                    <TouchableHighlight onPress={() => this.selectHistory(hi)}>
+                      <Image source={{ uri: hi["top"]["url"] }} style={HEADER_ITEM} />
+                    </TouchableHighlight>
+                  )
+                })}
               </View>
             </ScrollView>
 
@@ -232,6 +272,8 @@ export class SecondExampleScreen extends React.Component<
                 flexDirection: "row",
                 flexWrap: "wrap",
                 alignItems: "center",
+                marginTop: spacing[2],
+                marginLeft: spacing[4],
               }}
             >
               {this.state.items.map(item => <Image source={{ uri: item["url"] }} style={ITEM} />)}

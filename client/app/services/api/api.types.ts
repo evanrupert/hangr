@@ -16,7 +16,16 @@ export interface Item {
   idx: number
 }
 
+export interface HistoryItem {
+  top: Item
+  bottom: Item
+  weather: string
+  id: number
+  timestamp: string
+}
+
 export type GetItems = { kind: "ok"; items: JSON } | GeneralApiProblem
+export type GetHistory = { kind: "ok"; items: JSON } | GeneralApiProblem
 
 export interface Recommendation {
   top: {

@@ -4,6 +4,7 @@ import { Item } from '../lib/entities/item'
 import { Clarifai } from '../lib/services/clarifai'
 import { determineWeatherType, isTop } from '../lib/modules/predictions'
 import { findNextIndex } from '../lib/modules/queries'
+import { CarouselQueue } from '../lib/entities/carousel_queue'
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   context.log('HTTP trigger function processed a request.')
@@ -19,6 +20,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     db = new Database()
     await db.initialize()
     const itemsRepo = await db.itemsRepo()
+    const carouselQueueRepo = await db.carouselQueueRepo()
 
     console.log(prediction)
 
@@ -31,15 +33,26 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       idx
     ))
 
+    await carouselQueueRepo.save(new CarouselQueue(newItem.id, 0))
+
+    console.log('Past throw error point')
+    console.log(newItem)
+
     context.res = {
       status: 200,
-      body: newItem
+      body: {
+        ok: true,
+        data: newItem
+      }
     }
   } catch (e) {
     console.log(e)
     context.res = {
-      status: 200,
-      body: e
+      status: 401,
+      body: {
+        ok: false,
+        error: e
+      }
     }
   } finally {
     if (db) await db.close()

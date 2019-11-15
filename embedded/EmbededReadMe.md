@@ -2,7 +2,7 @@
 
 ## Methodology:
 This project uses the Arduino as an interface for the Raspberry Pi to pull data from the light sensor, as it is not supported otherwise. 
-This data is transferred over GPIO as HIGH and LOW values. The Raspberry Pi counts the changes between HIGH/LOW values. 
+This data is transferred over GPIO as HIGH and LOW values. The Raspberry Pi counts the changes between HIGH/LOW values as part of the Python script that receives data from the app interface. 
 
 Each position in the hangr is marked by a black marks on an otherwise white circle like this:
 

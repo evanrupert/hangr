@@ -15,7 +15,7 @@ A possible improvement to this is a more accurate system of indexing, such as th
 
 ## Required Hardware:
     - Raspberry Pi 3B+
-    - Arduino Uno
+    - Arduino MEGA
     - Continuous Servo with Servo Horn
     - Light Sensor
     - Misc. Connectors

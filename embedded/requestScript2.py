@@ -1,3 +1,5 @@
+#This is the python script that runs on the Raspberry Pi
+
 import requests
 import json
 import time

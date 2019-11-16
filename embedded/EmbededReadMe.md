@@ -8,7 +8,7 @@ Each position in the hangr is marked by a black marks on an otherwise white circ
 
 [![Segmented](https://etc.usf.edu/clipart/74300/74344/74344_pie_4-8b_sm.gif)](https://etc.usf.edu/clipart/74300/74344/74344_pie_4-8b_sm.gif)
 
-Each index is saved in server-side, and the index of the target article of clothing is sent from the server to the Pi via (TODO: FIND NAME) and the Pi will move the sevo until the desired position is facing the user. This position is held until a new one is sent. 
+Each index is saved in server-side, and the index of the target article of clothing is sent from the server to the Pi via (TODO: FIND NAME) and the Pi will move the servo until the desired position is facing the user. This position is held until a new one is sent. 
 
 A possible improvement to this is a more accurate system of indexing, such as through the use of a rotary encoder. This was the original plan, but the hardware was not available to create this. 
 
